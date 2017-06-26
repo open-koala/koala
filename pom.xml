@@ -79,12 +79,12 @@
 		<repository>
 			<id>koala-releases</id>
 			<name>koala-releases</name>
-			<url>http://nexus.openkoala.org:8081/content/repositories/releases/</url>
+			<url>http://nexus.dddlib.org/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>koala-snapshots</id>
 			<name>koala-snapshots</name>
-			<url>http://nexus.openkoala.org:8081/content/repositories/snapshots/</url>
+			<url>http://nexus.dddlib.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
 		<site>
 			<id>koala-site</id>
@@ -131,7 +131,7 @@
 	<repositories>
 		<repository>
 			<id>koala-releases</id>
-			<url>http://nexus.openkoala.org/content/repositories/public-releases/</url>
+			<url>http://nexus.dddlib.org/content/repositories/public-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -141,7 +141,7 @@
 		</repository>
 		<repository>
 			<id>koala-snapshots</id>
-			<url>http://nexus.openkoala.org/content/repositories/public-snapshots/</url>
+			<url>http://nexus.dddlib.org/content/repositories/public-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -153,7 +153,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>koala-releases</id>
-			<url>http://nexus.openkoala.org/content/repositories/public-releases/</url>
+			<url>http://nexus.dddlib.org/content/repositories/public-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -163,7 +163,7 @@
 		</pluginRepository>
 		<pluginRepository>
 			<id>koala-snapshots</id>
-			<url>http://nexus.openkoala.org/content/repositories/public-snapshots/</url>
+			<url>http://nexus.dddlib.org/content/repositories/public-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
