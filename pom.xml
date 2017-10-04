@@ -79,12 +79,12 @@
 		<repository>
 			<id>koala-releases</id>
 			<name>koala-releases</name>
-			<url>http://nexus.dddlib.org/content/repositories/releases/</url>
+			<url>http://nexus.dayatang.org/content/repositories/public-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>koala-snapshots</id>
 			<name>koala-snapshots</name>
-			<url>http://nexus.dddlib.org/content/repositories/snapshots/</url>
+			<url>http://nexus.dayatang.org/content/repositories/public-snapshots/</url>
 		</snapshotRepository>
 		<site>
 			<id>koala-site</id>
@@ -131,7 +131,7 @@
 	<repositories>
 		<repository>
 			<id>koala-releases</id>
-			<url>http://nexus.dddlib.org/content/repositories/public-releases/</url>
+			<url>http://nexus.dayatang.org/content/repositories/public-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -141,7 +141,7 @@
 		</repository>
 		<repository>
 			<id>koala-snapshots</id>
-			<url>http://nexus.dddlib.org/content/repositories/public-snapshots/</url>
+			<url>http://nexus.dayatang.org/content/repositories/public-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -153,7 +153,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>koala-releases</id>
-			<url>http://nexus.dddlib.org/content/repositories/public-releases/</url>
+			<url>http://nexus.dayatang.org/content/repositories/public-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -163,7 +163,7 @@
 		</pluginRepository>
 		<pluginRepository>
 			<id>koala-snapshots</id>
-			<url>http://nexus.dddlib.org/content/repositories/public-snapshots/</url>
+			<url>http://nexus.dayatang.org/content/repositories/public-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -190,7 +190,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<dddlib.version>4.3.6</dddlib.version>
+		<dddlib.version>4.6.1</dddlib.version>
 		<struts2.version>2.3.16</struts2.version>
 		<spring.version>3.2.6.RELEASE</spring.version>
 		<spring.security.version>3.2.0.RELEASE</spring.security.version>
@@ -1109,9 +1109,9 @@
 					</executions>
 				</plugin>
 				<plugin>
-					<groupId>org.mortbay.jetty</groupId>
+					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>8.1.12.v20130726</version>
+					<version>9.4.7.v20170914</version>
 					<configuration>
 						<scanIntervalSeconds>10</scanIntervalSeconds>
 						<webApp>
