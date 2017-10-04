@@ -24,9 +24,9 @@
         <aspectj.version>1.6.12</aspectj.version>
         <charset>UTF-8</charset>
         <tomcat.version>6.0.35</tomcat.version>
-        <cargo.container>jetty8x</cargo.container>
+        <cargo.container>jetty9x</cargo.container>
         <cargo.container.url>
-            http://archive.eclipse.org/jetty/8.1.5.v20120716/dist/jetty-distribution-8.1.5.v20120716.zip
+            http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.7.v20170914/jetty-distribution-9.4.7.v20170914.tar.gz
         </cargo.container.url>
         <cargo.container.downloadDir>${env.HOME}</cargo.container.downloadDir>
         <cargo.host>localhost</cargo.host>
