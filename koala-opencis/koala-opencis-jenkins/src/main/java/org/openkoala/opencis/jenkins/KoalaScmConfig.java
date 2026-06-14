@@ -1,7 +1,5 @@
 package org.openkoala.opencis.jenkins;
 
-import nl.tudelft.jenkins.jobs.ScmConfig;
-
 /**
  * User: zjzhai
  * Date: 1/21/14
@@ -11,7 +9,7 @@ public abstract class KoalaScmConfig {
 
     private String scmAddress;
 
-    protected abstract ScmConfig getScmConfig();
+    protected abstract String getScmType();
 
     protected KoalaScmConfig(String scmAddress) {
         this.scmAddress = scmAddress;

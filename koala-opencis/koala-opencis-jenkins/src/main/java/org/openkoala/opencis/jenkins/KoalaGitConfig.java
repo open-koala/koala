@@ -1,8 +1,5 @@
 package org.openkoala.opencis.jenkins;
 
-import nl.tudelft.jenkins.jobs.GitScmConfig;
-import nl.tudelft.jenkins.jobs.ScmConfig;
-
 /**
  * User: zjzhai
  * Date: 1/22/14
@@ -16,7 +13,7 @@ public class KoalaGitConfig extends KoalaScmConfig {
     }
 
     @Override
-    protected ScmConfig getScmConfig() {
-        return new GitScmConfig(getScmAddress());
+    protected String getScmType() {
+        return "git";
     }
 }
