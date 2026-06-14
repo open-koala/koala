@@ -25,9 +25,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- <filter-mapping> <filter-name>encodingFilter</filter-name> <url-pattern>/*</url-pattern> 
-		</filter-mapping> -->
-	<!-- ss3过滤器链 -->
+	<!-- Spring Security filter chain -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -35,6 +33,7 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 
 	<!-- 加入struts2的支持 -->
@@ -52,6 +51,20 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:META-INF/spring/root.xml</param-value>
 	</context-param>
+
+	<servlet>
+		<servlet-name>jsp</servlet-name>
+		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+		<init-param>
+			<param-name>compilerSourceVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>compilerTargetVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
 
 	<session-config>
 		<session-timeout>120</session-timeout>

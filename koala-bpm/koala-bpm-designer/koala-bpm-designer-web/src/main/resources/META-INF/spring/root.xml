@@ -12,13 +12,5 @@
 	<context:property-placeholder location="classpath*:security-sql.properties" ignore-unresolvable="true"/>
 	
 	<import resource="classpath*:META-INF/spring/base.xml" />
-	
-	<import resource="classpath*:META-INF/spring/spring-security.xml"/>
-	<import resource="classpath:META-INF/spring/spring-http.xml"/>
-	<import resource="classpath*:META-INF/spring/spring-ehcache.xml"/>
-	
-	<import resource="classpath:META-INF/spring/security-custom.xml"/>
-	
-	 <!-- 和权限组件不同数据源 -->
-	<import resource="classpath*:META-INF/spring/security-persistence.xml"/>
+	<import resource="classpath:META-INF/spring/spring-http.xml" />
 </beans>
