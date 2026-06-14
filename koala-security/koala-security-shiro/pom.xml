@@ -31,6 +31,10 @@
 			<artifactId>servlet-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.openkoala.security</groupId>
 			<artifactId>koala-security-facade-impl</artifactId>
 			<version>${project.parent.version}</version>
@@ -48,23 +52,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		<!-- 验证码 -->
-		<dependency>
-			<groupId>com.octo.captcha</groupId>
-			<artifactId>jcaptcha</artifactId>
-			<version>${jcaptcha.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.octo.captcha</groupId>
-			<artifactId>jcaptcha-integration-simple-servlet</artifactId>
-			<version>${jcaptcha.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>servlet-api</artifactId>
-					<groupId>javax.servlet</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
