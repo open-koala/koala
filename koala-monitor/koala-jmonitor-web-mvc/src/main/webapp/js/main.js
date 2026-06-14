@@ -51,20 +51,20 @@ $(function(){
 	 */
 	self.on('modifyPwd',function(){
 		$('body').modifyPassword({
-			service: contextPath + '/auth/User/updatePassword.koala'
+			service: contextPath + '/auth/currentUser/updatePassword.koala'
 		});
 	});
 	/*
 	 切换用户
 	*/
 	self.on('switchUser',function(){
-		window.location.href = contextPath+"/j_spring_security_logout";
+		logout();
 	});
 	/*
 	注销
 	*/
 	self.on('loginOut',function(){
-		window.location.href = contextPath+"/j_spring_security_logout";
+		logout();
 	});
 	$('#userManager').find('li').on('click', function(){
 		self.trigger($(this).data('target'));
@@ -132,9 +132,14 @@ var openTab = function(target, title, mark, id, param){
  加载DIV内容
  */
 var loadContent = function(obj, target){
-    $.get(contextPath + target).done(function(data){
-        obj.html(data);
-        $('#tabContent').trigger('loadContentCompalte', obj);
+    $.get(contextPath + target).done(function(data, status, objXMLHttp){
+    	var headers = objXMLHttp.getAllResponseHeaders();
+    	if (headers.indexOf("login: login") >= 0 && window.location.pathname.indexOf("/login.koala") < 0) {
+    		window.location.href = contextPath + "/login.koala";
+    	} else {
+    		obj.html(data);
+            $('#tabContent').trigger('loadContentCompalte', obj);
+    	}
     }).fail(function(){
             throw new Error('加载失败');
         }).always(function(){
@@ -174,10 +179,18 @@ $.ajaxSetup({
 	contentType : "application/x-www-form-urlencoded;charset=utf-8", 
 	error : function(XMLHttpRequest, textStatus) { 
 		if(XMLHttpRequest.status == 499){
-			window.location.href = contextPath+"/j_spring_security_logout";
+			window.location.href = contextPath + "/login.koala";
 		}
 	} 
 }); 
+
+var logout = function(){
+	$.post(contextPath + "/logout.koala", function(data){
+		if(data.success){
+			window.location.href = contextPath + "/login.koala";
+		}
+	});
+};
 
 
 var refreshToken = function($element){

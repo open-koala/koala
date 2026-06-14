@@ -13,6 +13,7 @@
 	<properties>
 		<local.repository.path>file://${project.basedir}/../../lib/</local.repository.path>
 		<project.type>war</project.type>
+		<jetty.port>7653</jetty.port>
 	</properties>
 
 	<dependencies>
@@ -32,37 +33,31 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
-
-		<!-- 权限系统集成 -->
+		<!-- 集成当前 koala-security / Shiro 权限体系 -->
 		<dependency>
 			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-ss3Adapter</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.openkoala.koalacommons</groupId>
-			<artifactId>koala-commons-cache</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-application</artifactId>
+			<artifactId>koala-security-conf</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-authImpl</artifactId>
+			<artifactId>koala-security-shiro</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-applicationImpl</artifactId>
+			<artifactId>koala-security-taglibs</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>org.openkoala.security</groupId>
+			<artifactId>koala-security-controller</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -87,6 +82,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.31</version>
+		</dependency>
 
 	</dependencies>
 
@@ -101,6 +101,12 @@
 					<webApp>
 						<contextPath>/</contextPath>
 					</webApp>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>${jetty.port}</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
 				</configuration>
 			</plugin>
             <!-- 排除WAR的Deploy -->

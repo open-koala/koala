@@ -11,6 +11,9 @@
 <script type="text/javascript" src="<c:url value='/lib/bootstrap/js/bootstrap.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/lib/koala-ui.plugin.js' />"></script>	
 <script type="text/javascript" src="<c:url value='/lib/validate.js' />"></script>
+<script type="text/javascript">
+var contextPath = '${pageContext.request.contextPath}';
+</script>
 <style type="text/css">
 @charset "UTF-8";
 /* CSS Document */
@@ -179,18 +182,18 @@ body {
 					});
 		     	</script>
 			</c:if>
-			<FORM id="loginFormId" method=post action="j_spring_security_check" class="form-horizontal">
+			<FORM id="loginFormId" method="post" class="form-horizontal">
 				<div class="form-group input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                    <input type="text" class="form-control" placeholder="用户名"  name="j_username" id="j_username">
+                    <input type="text" class="form-control" placeholder="用户名"  name="username" id="j_username">
 				</div>
                 <div class="form-group input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                    <input type="password" name="j_password" id="j_password" class="form-control" placeholder="密码"/>
+                    <input type="password" name="password" id="j_password" class="form-control" placeholder="密码"/>
                 </div>
 				<div class="form-group input-group">
 				    <span class="input-group-addon"><span class="glyphicon glyphicon-magnet"></span></span>
-					<input type="text" id="jcaptcha"  style="width:50%;" name="jcaptcha" value="" class="form-control" placeholder="验证码"  autocomplete="off"/>
+					<input type="text" id="jcaptcha"  style="width:50%;" name="jCaptchaCode" value="" class="form-control" placeholder="验证码"  autocomplete="off"/>
 					<div style="width:120px;"></div>
 				</div>
 				<img src="jcaptcha.jpg" id="checkCode" onclick="refreshCode();" class="checkCode"/>
@@ -226,7 +229,26 @@ body {
 	            return false;
 	        }
 	        btnLogin.attr('disabled', 'disabled').html('正在登录...');
-	        form.submit();
+	        $.ajax({
+	        	url: contextPath + '/login.koala',
+	        	dataType: 'json',
+	        	data: form.serialize(),
+	        	type: 'POST',
+	        	success: function(data) {
+	        		if (data.success) {
+	        			window.location.href = contextPath + '/index.koala';
+	        			return;
+	        		}
+	        		btnLogin.removeAttr('disabled').html('登录');
+	        		alert(data.errorMessage || '登录失败');
+	        		refreshCode();
+	        	},
+	        	error: function() {
+	        		btnLogin.removeAttr('disabled').html('登录');
+	        		alert('登录失败');
+	        		refreshCode();
+	        	}
+	        });
 	    }
     });
 	</script>

@@ -10,12 +10,9 @@
 
     <import resource="base-context.xml" />
 	<import resource="classpath*:META-INF/spring/distributed/root.xml" />
-    <import resource="classpath*:META-INF/spring/distributed/security-export.xml" />
-    
-	<import resource="classpath*:META-INF/spring/spring-security.xml"/>
-	<import resource="classpath:META-INF/spring/koala-security-http.xml"/>
-	
-	<import resource="classpath:META-INF/spring/security-custom.xml"/>
-	<import resource="classpath*:META-INF/spring/spring-ehcache.xml"/>
+	<import resource="classpath*:META-INF/spring/security-base-context.xml" />
+	<import resource="classpath*:META-INF/spring/security-extend.xml" />
+	<import resource="classpath*:META-INF/spring/security-standalone-persistence.xml" />
+	<import resource="classpath*:META-INF/spring/security-shiro.xml" />
     
 </beans>

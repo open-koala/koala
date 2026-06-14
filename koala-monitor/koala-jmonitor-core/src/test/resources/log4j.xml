@@ -41,7 +41,7 @@
 		<priority value="debug" />
 	</category>
 	
-	<category name="org.openkoala.koala.auth">
+	<category name="org.openkoala.security">
 		<priority value="info" />
 	</category>
 	

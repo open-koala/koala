@@ -25,13 +25,13 @@
       <properties>
         <!-- 包含与排除路径（仅需配置一个，同时配置则仅includeUrls生效）  -->
         <prop key="includeUrls" value="" />
-        <prop key="excludeUrls" value="*.htm;*.html;j_spring_security_check;*/pages/common/*;login.action"/>
+        <prop key="excludeUrls" value="*.htm;*.html;login.koala;logout.koala;jcaptcha.jpg;*/pages/common/*;login.action"/>
         <prop key="trace-filter-active-time" value="0"/>
         <prop key="trace-timeout" value="60000"/>
         <!-- 
-           登录用户sessionKey (Spring Security 登录统一为：SPRING_SECURITY_CONTEXT.authentication.name)
+           登录用户sessionKey (Shiro 登录统一为：org.apache.shiro.subject.support.DefaultSubjectContext_PRINCIPALS_SESSION_KEY)
          -->
-        <prop key="login-user-sessionkey" value="SPRING_SECURITY_CONTEXT.authentication.name"/>
+        <prop key="login-user-sessionkey" value="org.apache.shiro.subject.support.DefaultSubjectContext_PRINCIPALS_SESSION_KEY"/>
       </properties>
     </component>
     <component>

@@ -31,6 +31,8 @@ public class DetectFilter implements Filter {
 	private static Log log = LogFactory.getLog(DetectFilter.class);
 	
 	private static final List<String> DEFAULT_IGNORE_SUFFIX = Arrays.asList("css;js;jpg;ico;jpeg;bmp;gif;png;css;swf".split(";"));
+	
+	private static final String SHIRO_PRINCIPALS_SESSION_KEY = "org.apache.shiro.subject.support.DefaultSubjectContext_PRINCIPALS_SESSION_KEY";
 	   
 	private FilterConfig _filterConfig;
 	
@@ -148,6 +150,9 @@ public class DetectFilter implements Filter {
     	String user = "unknow";
     	try {
     		String sessionKey = RuntimeContext.getContext().getComponentDef(E_TraceType.HTTP.name()).getProperty("login-user-sessionkey");
+    		if (StringUtils.isBlank(sessionKey)) {
+    			return user;
+    		}
         	if(sessionKey.startsWith("SPRING_SECURITY_CONTEXT")){//Spring Security 
         		Object ssContext = req.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         		if(ssContext != null){
@@ -172,12 +177,49 @@ public class DetectFilter implements Filter {
         				if(name != null)user = name.toString();
         			}
         		}
+        	}else if("SHIRO_PRINCIPAL".equals(sessionKey) || SHIRO_PRINCIPALS_SESSION_KEY.equals(sessionKey)){
+        		Object principals = req.getSession().getAttribute(SHIRO_PRINCIPALS_SESSION_KEY);
+        		Object principal = getValueByMethod(principals, "getPrimaryPrincipal");
+        		if (principal == null) {
+        			principal = principals;
+        		}
+        		user = getPrincipalName(principal);
         	}else{
-        		user = req.getSession().getAttribute(sessionKey).toString();
+        		Object sessionValue = req.getSession().getAttribute(sessionKey);
+        		if (sessionValue != null) {
+        			user = sessionValue.toString();
+        		}
         	}
 		} catch (Exception e) {}
     	
     	return user;
+    }
+    
+    private static String getPrincipalName(Object principal) {
+    	if (principal == null) {
+    		return "unknow";
+    	}
+    	Object userAccount = getValueByMethod(principal, "getUserAccount");
+    	if (userAccount != null) {
+    		return userAccount.toString();
+    	}
+    	Object name = getValueByMethod(principal, "getName");
+    	if (name != null) {
+    		return name.toString();
+    	}
+    	return principal.toString();
+    }
+    
+    private static Object getValueByMethod(Object target, String methodName) {
+    	if (target == null) {
+    		return null;
+    	}
+    	try {
+    		Method method = target.getClass().getMethod(methodName);
+    		return method.invoke(target);
+    	} catch (Exception e) {
+    		return null;
+    	}
     }
 
 }

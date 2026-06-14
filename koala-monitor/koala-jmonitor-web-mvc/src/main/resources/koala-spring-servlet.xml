@@ -19,6 +19,7 @@
   		<context:exclude-filter type="annotation" expression="javax.inject.Named" /> 
   		<context:exclude-filter type="annotation" expression="javax.inject.Inject" /> 
 	</context:component-scan>
+	<context:annotation-config/>
 	
 
 	<!-- 启动SpringMVC的注解功能，它会自动注册HandlerMapping、 HandlerAdapter、ExceptionResolver的相关实例 -->
@@ -33,7 +34,7 @@
 	</bean>
 
 	<!-- JSON转换器 -->
-	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>
 				<value>text/html;charset=UTF-8</value>
