@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.openkoala.security</groupId>
 		<artifactId>koala-security</artifactId>
-		<version>4.0.0</version>
+		<version>4.0.1</version>
 	</parent>
 	<artifactId>koala-security-web</artifactId>
 	<packaging>war</packaging>

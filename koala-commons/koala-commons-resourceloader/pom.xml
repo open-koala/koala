@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>koala-commons</artifactId>
 		<groupId>org.openkoala.koalacommons</groupId>
-		<version>4.0.0</version>
+		<version>4.0.1</version>
 	</parent>
 	<artifactId>koala-commons-resourceloader</artifactId>
 
