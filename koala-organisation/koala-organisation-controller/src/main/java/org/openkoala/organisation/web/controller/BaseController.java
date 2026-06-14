@@ -17,12 +17,12 @@ public class BaseController {
 	//数据绑定  
     @InitBinder    
     public void initBinder(WebDataBinder binder) {  
+        binder.setAutoGrowCollectionLimit(Integer.MAX_VALUE);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");    
         dateFormat.setLenient(false);    
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));    
         //CustomDateEditor 可以换成自己定义的编辑器。  
         //注册一个Date 类型的绑定器 。
-        binder.setAutoGrowCollectionLimit(Integer.MAX_VALUE);
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -37,7 +38,7 @@ public class PostController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/pagingquery")
-    public Page<PostDTO> pagingQuery(int page, int pagesize, PostDTO postDto) {
+    public Page<PostDTO> pagingQuery(@RequestParam("page") int page, @RequestParam("pagesize") int pagesize, PostDTO postDto) {
     	return postFacade.pagingQueryPosts(postDto, page, pagesize);
     }
 
@@ -77,7 +78,7 @@ public class PostController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/paging-query-post-by-org")
-    public Page<PostDTO> pagingQueryPostsOfOrganization(Long organizationId, PostDTO example, int page, int pagesize) {
+    public Page<PostDTO> pagingQueryPostsOfOrganization(Long organizationId, PostDTO example, @RequestParam("page") int page, @RequestParam("pagesize") int pagesize) {
         return postFacade.pagingQueryPostsOfOrganizatoin(organizationId, example, page, pagesize);
     }
 
