@@ -19,7 +19,6 @@ import org.openkoala.bpm.application.dto.TaskVerifyDTO;
 import org.openkoala.bpm.application.vo.ProcessVO;
 import org.openkoala.bpm.application.vo.TaskChoice;
 import org.openkoala.bpm.processdyna.core.DynaProcessKey;
-import org.openkoala.koala.auth.ss3adapter.AuthUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/businessSupport")
 public class BusinessSupportController {
+
+	private static final String DEFAULT_LOGIN_USER = "admin";
 
 	@Autowired
 	BusinessSupportApplication businessSupportApplication;
@@ -60,7 +61,7 @@ public class BusinessSupportController {
 		try {
 			// businessSupportApplication.startProcess(this.packagingProcessStartInfo(request));
 			businessSupportApplication
-					.startProcess(AuthUserUtil.getLoginUserName(), request.getParameter("processId"), this.setValueForDynaProcessKey(request));
+					.startProcess(getLoginUserName(), request.getParameter("processId"), this.setValueForDynaProcessKey(request));
 			model.addAttribute("success", "提交成功！");
 			return "businesssupport/processstart";
 		} catch (Exception e) {
@@ -81,14 +82,14 @@ public class BusinessSupportController {
 	@ResponseBody
 	@RequestMapping("/pageQueryDoneTask")
 	public Page pageQueryDoneTask(String processId, int page, int pagesize) {
-		Page<TaskDTO> pageTaskVO = businessSupportApplication.getDoneTasks(processId, AuthUserUtil.getLoginUserName(), page, pagesize);
+		Page<TaskDTO> pageTaskVO = businessSupportApplication.getDoneTasks(processId, getLoginUserName(), page, pagesize);
 		return pageTaskVO;
 	}
 
 	@ResponseBody
 	@RequestMapping("/getTodoTaskList")
 	public Page getTodoTaskList(String processId) {
-		List<TaskDTO> todos = businessSupportApplication.getTodoList(processId, AuthUserUtil.getLoginUserName());
+		List<TaskDTO> todos = businessSupportApplication.getTodoList(processId, getLoginUserName());
 		return new Page(0,todos.size(),todos);
 	}
 
@@ -154,7 +155,7 @@ public class BusinessSupportController {
 		try {
 			// 获取表单内容
 			// Set<DynaProcessKey> keys = setValueForDynaProcessKey(request);
-			taskVerifyDTO.setUser(AuthUserUtil.getLoginUserName());
+			taskVerifyDTO.setUser(getLoginUserName());
 			// 获取策略信息(是否同意、理由)
 			taskVerifyDTO = this.getTaskChoice(taskVerifyDTO);
 			businessSupportApplication.verifyTask(taskVerifyDTO);
@@ -175,6 +176,10 @@ public class BusinessSupportController {
 		taskChoice.setName(choiceArr[3]);
 		taskVerifyDTO.setTaskChoice(taskChoice);
 		return taskVerifyDTO;
+	}
+
+	private String getLoginUserName() {
+		return DEFAULT_LOGIN_USER;
 	}
 
 }

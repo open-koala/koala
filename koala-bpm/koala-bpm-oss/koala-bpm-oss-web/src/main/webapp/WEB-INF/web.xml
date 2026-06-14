@@ -20,15 +20,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- ss3过滤器链 -->
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<!-- The legacy ss3Adapter security chain is not included in the repository. -->
 
 
 	<!-- monitor config begin -->
@@ -43,7 +35,7 @@
 	<!-- Spring Listener -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:META-INF/spring/root.xml</param-value>
+		<param-value>classpath:META-INF/spring/root.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.dayatang.ioc.spring.webapp.DayatangContextLoaderListener</listener-class>
@@ -54,6 +46,20 @@
 	<listener>
 		<listener-class>org.openkoala.koala.auth.web.InitSuperUserListener</listener-class>
 	</listener>
+
+	<servlet>
+		<servlet-name>jsp</servlet-name>
+		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+		<init-param>
+			<param-name>compilerSourceVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>compilerTargetVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
 
 	<session-config>
 		<session-timeout>120</session-timeout>

@@ -116,7 +116,7 @@
 
 		<dependency>
 			<groupId>org.openkoala.organisation</groupId>
-			<artifactId>koala-organisation-applicationImpl</artifactId>
+			<artifactId>koala-organisation-application</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 
