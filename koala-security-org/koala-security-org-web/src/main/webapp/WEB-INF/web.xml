@@ -23,6 +23,15 @@
         <listener-class>org.openkoala.organisation.web.context.OrganisationListener</listener-class>
     </listener>
 
+	<filter>
+		<filter-name>exceptionLoggingFilter</filter-name>
+		<filter-class>org.openkoala.security.org.filter.ExceptionLoggingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>exceptionLoggingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- Character Filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -77,6 +86,20 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>*.koala</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>jsp</servlet-name>
+		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+		<init-param>
+			<param-name>compilerSourceVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>compilerTargetVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
 	
 	<welcome-file-list>
 		<welcome-file>/login.jsp</welcome-file>

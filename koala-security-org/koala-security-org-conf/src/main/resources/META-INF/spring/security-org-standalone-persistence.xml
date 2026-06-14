@@ -53,17 +53,15 @@
         <property name="persistenceUnitName" value="${security.org.jpa.persistenceUnitName}" />
     </bean>
 
-	<bean id="dataSource_security_org" class="org.logicalcobwebs.proxool.ProxoolDataSource">
-		<property name="driver" value="${security.org.db.jdbc.driver}" />
-		<property name="driverUrl" value="${security.org.db.jdbc.connection.url}" />
-		<property name="user" value="${security.org.db.jdbc.username}" />
+	<bean id="dataSource_security_org" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${security.org.db.jdbc.driver}" />
+		<property name="url" value="${security.org.db.jdbc.connection.url}" />
+		<property name="username" value="${security.org.db.jdbc.username}" />
 		<property name="password" value="${security.org.db.jdbc.password}" />
-		<property name="prototypeCount" value="5" />
-		<property name="maximumConnectionCount" value="${security.org.maximumConnectionCount}" />
-		<property name="minimumConnectionCount" value="${security.org.minimumConnectionCount}" />
-		<property name="houseKeepingTestSql" value="select 1" />
-		<property name="testBeforeUse" value="true" />
-		<property name="alias" value="${security.org.db.dataSource.alias}" />
+		<property name="maxActive" value="${security.org.maximumConnectionCount}" />
+		<property name="minIdle" value="${security.org.minimumConnectionCount}" />
+		<property name="validationQuery" value="select 1" />
+		<property name="testOnBorrow" value="true" />
 	</bean>
 
     <bean id="repository_security" class="org.openkoala.koala.commons.domain.jpa.KoalaEntityRepositoryJpa">
