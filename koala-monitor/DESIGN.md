@@ -402,13 +402,11 @@ jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
 - `koala-jmonitor-applicationImpl/src/main/resources/META-INF/spring/distributed/persistence.xml`
 - `koala-jmonitor-applicationImpl/src/main/resources/META-INF/spring/distributed/jpa.xml`
-- `koala-jmonitor-applicationImpl/src/main/resources/META-INF/sql/monitor-h2-schema.sql`
 
 当前持久化层使用：
 
 - `DriverManagerDataSource` 作为本地开发数据源。
-- `DataSourceInitializer` 执行 H2 建表脚本。
-- `LocalContainerEntityManagerFactoryBean` 创建 `monitor` persistence unit。
+- `LocalContainerEntityManagerFactoryBean` 创建 `monitor` persistence unit，并由 Hibernate 根据 `hbm2ddl.auto=update` 自动维护表结构。
 - `SharedEntityManagerBean` 注入 `EntityRepositoryJpa`，确保 JPQL update 使用 Spring 事务绑定的 `EntityManager`。
 - `km_transactionManager`、`km_transactionTemplate` 和 AOP advice 管理事务。
 
