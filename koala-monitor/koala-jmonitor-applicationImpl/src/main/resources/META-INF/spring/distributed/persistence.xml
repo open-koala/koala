@@ -81,8 +81,8 @@
 	        <property name="persistenceUnitName" value="monitor" />
 	    </bean>
 
-		<bean id="km_repository" class="org.dayatang.persistence.jpa.EntityRepositoryJpa">
-			<constructor-arg ref="kmEntityManager"/>
+		<bean id="km_repository" class="org.openkoala.koala.commons.domain.jpa.KoalaEntityRepositoryJpa">
+			<property name="entityManager" ref="kmEntityManager" />
 		</bean>
 
 	<bean id="km_queryChannel" class="org.dayatang.querychannel.impl.QueryChannelServiceImpl">

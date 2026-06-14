@@ -151,7 +151,7 @@ public abstract class BaseSchedulerBean {
      */
     protected String checkExecutable() {
         try {
-            SchedulerConfg scheduler = repository.get(SchedulerConfg.class, triggerName);
+            SchedulerConfg scheduler = getRepository().get(SchedulerConfg.class, triggerName);
             if (scheduler == null)
                 return cronExpression;
             if (!scheduler.isActive()) {
@@ -198,7 +198,7 @@ public abstract class BaseSchedulerBean {
 		            hql = "update SchedulerConfg set running = ? where triggerName = ?";
 		            params = new Object[] {false, triggerName };
 		        }
-		        repository.createJpqlQuery(hql).setParameters(Arrays.asList(params)).executeUpdate();
+		        getRepository().createJpqlQuery(hql).setParameters(Arrays.asList(params)).executeUpdate();
 				return null;
 			}
 		});
