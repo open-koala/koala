@@ -79,12 +79,12 @@
 		<repository>
 			<id>koala-releases</id>
 			<name>koala-releases</name>
-			<url>http://nexus.dayatang.org/content/repositories/public-releases/</url>
+			<url>https://nexus.dayatang.org/content/repositories/public-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>koala-snapshots</id>
 			<name>koala-snapshots</name>
-			<url>http://nexus.dayatang.org/content/repositories/public-snapshots/</url>
+			<url>https://nexus.dayatang.org/content/repositories/public-snapshots/</url>
 		</snapshotRepository>
 		<site>
 			<id>koala-site</id>
@@ -131,7 +131,7 @@
 	<repositories>
 		<repository>
 			<id>koala-releases</id>
-			<url>http://nexus.dayatang.org/content/repositories/public-releases/</url>
+			<url>https://nexus.dayatang.org/content/repositories/public-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -141,7 +141,7 @@
 		</repository>
 		<repository>
 			<id>koala-snapshots</id>
-			<url>http://nexus.dayatang.org/content/repositories/public-snapshots/</url>
+			<url>https://nexus.dayatang.org/content/repositories/public-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -153,7 +153,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>koala-releases</id>
-			<url>http://nexus.dayatang.org/content/repositories/public-releases/</url>
+			<url>https://nexus.dayatang.org/content/repositories/public-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -163,7 +163,7 @@
 		</pluginRepository>
 		<pluginRepository>
 			<id>koala-snapshots</id>
-			<url>http://nexus.dayatang.org/content/repositories/public-snapshots/</url>
+			<url>https://nexus.dayatang.org/content/repositories/public-snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -179,10 +179,10 @@
 		<module>koala-security</module>
 		<module>koala-organisation</module>
 		<module>koala-security-org</module>
-		<!--<module>koala-bpm</module>-->
-		<!--<module>koala-monitor</module>-->
+		<module>koala-bpm</module>
+		<module>koala-monitor</module>
 		<module>koala-gqc</module>
-		<!-- <module>koala-opencis</module> -->
+		 <module>koala-opencis</module>
 		<module>koala-businesslog</module>
 		<module>koala-plugin</module>
 	</modules>
@@ -190,9 +190,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<dddlib.version>4.6.1</dddlib.version>
+		<dddlib.version>4.4.5</dddlib.version>
 		<struts2.version>2.3.16</struts2.version>
-		<spring.version>3.2.6.RELEASE</spring.version>
+		<spring.version>4.3.30.RELEASE</spring.version>
 		<spring.security.version>3.2.0.RELEASE</spring.security.version>
 		<aspectj.version>1.6.12</aspectj.version>
 		<drools.version>5.5.0.Final</drools.version>
@@ -287,6 +287,11 @@
 				<version>1.2</version>
 			</dependency>
 			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
 				<version>2.1</version>
@@ -298,6 +303,11 @@
 				<version>1</version>
 			</dependency>
 			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>javax.annotation-api</artifactId>
+				<version>1.3.2</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.faces</groupId>
 				<artifactId>jsf-impl</artifactId>
 				<version>1.2</version>
@@ -306,6 +316,16 @@
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>jsr311-api</artifactId>
 				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>2.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
+				<version>2.3.8</version>
 			</dependency>
 			<!-- Apache commons -->
 			<dependency>
@@ -838,6 +858,11 @@
 				<version>1.9.2</version>
 			</dependency>
 			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.9.10.8</version>
+			</dependency>
+			<dependency>
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache-core</artifactId>
 				<version>2.0.1</version>
@@ -872,11 +897,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.velocity</groupId>
-				<artifactId>velocity</artifactId>
-				<version>1.7</version>
-			</dependency>
-			<dependency>
-				<groupId>org.openkoala.velocity</groupId>
 				<artifactId>velocity</artifactId>
 				<version>1.7</version>
 			</dependency>
@@ -1086,8 +1106,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.1</version>
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>1.8</source>
+						<target>1.8</target>
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
@@ -1161,8 +1181,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
