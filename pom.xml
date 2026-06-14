@@ -215,7 +215,7 @@
 	</properties>
 	<profiles>
 		<profile>
-			<id>default</id>
+			<id>H2</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>

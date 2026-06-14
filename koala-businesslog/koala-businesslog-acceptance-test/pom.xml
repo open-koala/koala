@@ -16,7 +16,7 @@
     </properties>
     <profiles>
         <profile>
-            <id>mysql</id>
+            <id>MySQL</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
