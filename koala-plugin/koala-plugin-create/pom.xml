@@ -23,7 +23,7 @@
 		</dependency>
 		<!-- 加入Velocity模板支持 -->
 		<dependency>
-			<groupId>org.openkoala.velocity</groupId>
+			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 		</dependency>
 

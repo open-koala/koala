@@ -14,7 +14,7 @@ public class Test {
 		Project pro = new Project();
 		pro.setAppName("test");
 		pro.setArtifactId("ttt");
-		pro.setPath("C:/Users/Administrator/Desktop/ran");
+		pro.setPath(new java.io.File(System.getProperty("java.io.tmpdir"), "koala-plugin-demo").getAbsolutePath());
 		KoalaProjectCreate kpc = new KoalaProjectCreate();
 		pro.initSSJProject();
 		//Organization organization =	new Organization();

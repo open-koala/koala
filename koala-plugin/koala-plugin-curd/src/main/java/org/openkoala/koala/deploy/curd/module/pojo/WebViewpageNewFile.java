@@ -37,7 +37,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import forkoala.org.apache.velocity.VelocityContext;
+import org.apache.velocity.VelocityContext;
 import org.openkoala.koala.action.velocity.VelocityUtil;
 import org.openkoala.koala.deploy.curd.generator.VelocityContextUtils;
 import org.openkoala.koala.deploy.curd.module.core.EntityModel;

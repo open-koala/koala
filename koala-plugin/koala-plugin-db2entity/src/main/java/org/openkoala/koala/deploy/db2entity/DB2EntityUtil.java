@@ -155,7 +155,8 @@ public class DB2EntityUtil {
 	public static void main(String args[]) throws Exception {
 		DB2EntityUtil util =  DB2EntityUtil.getDB2EntityUtil();
 		util.init("org.h2.Driver",
-				"jdbc:h2:~/demo", "sa", "","/Users/lingen/.m2/repository/com/h2database/h2/1.3.171/h2-1.3.171.jar");
+				"jdbc:h2:~/demo", "sa", "",
+				System.getProperty("user.home") + "/.m2/repository/com/h2database/h2/1.3.171/h2-1.3.171.jar");
 		util.connect();
 		System.out.println(util.getTables());
 		

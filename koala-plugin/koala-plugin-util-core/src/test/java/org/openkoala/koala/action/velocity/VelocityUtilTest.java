@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import forkoala.org.apache.velocity.VelocityContext;
+import org.apache.velocity.VelocityContext;
 import org.junit.Test;
 
 /**
