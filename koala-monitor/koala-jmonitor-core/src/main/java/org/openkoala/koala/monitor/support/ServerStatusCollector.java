@@ -16,24 +16,20 @@
 package org.openkoala.koala.monitor.support;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.hyperic.sigar.CpuInfo;
-import org.hyperic.sigar.CpuPerc;
-import org.hyperic.sigar.FileSystem;
-import org.hyperic.sigar.FileSystemUsage;
-import org.hyperic.sigar.Mem;
-import org.hyperic.sigar.NetInterfaceConfig;
-import org.hyperic.sigar.NetInterfaceStat;
-import org.hyperic.sigar.Sigar;
-import org.hyperic.sigar.Swap;
 import org.openkoala.koala.monitor.model.ServerStatusVo;
 import org.openkoala.koala.monitor.model.ServerStatusVo.CpuInfoVo;
 import org.openkoala.koala.monitor.model.ServerStatusVo.DiskInfoVo;
+
+import com.sun.management.OperatingSystemMXBean;
 
 /**
  * 
@@ -53,57 +49,25 @@ public class ServerStatusCollector {
 	//磁盘读写初始数据 用于计算读写速率
 	private static Map<String, String> diskWritesAndReadsOnInit = new HashMap<String, String>();
 	private static long initTime;
+	private static final long MB = 1024L * 1024L;
 	static{
 		initTime = System.currentTimeMillis();
-		resetClasspath();
-		Sigar sigar = null;
-		try {
-			
-			sigar = new Sigar();
-			FileSystem fslist[] = sigar.getFileSystemList();
-			FileSystemUsage usage = null;
-			for (int i = 0; i < fslist.length; i++) {
-				FileSystem fs = fslist[i];
-				if(fs.getType() != 2)continue;
-				usage = sigar.getFileSystemUsage(fs.getDirName());
-				diskWritesAndReadsOnInit.put(fs.getDevName(), usage.getDiskReadBytes() + "|"+usage.getDiskWriteBytes());
-			}
-		} catch (Exception e) {}finally{
-			if(sigar != null)sigar.close();
-		}
 	}
-	
-	/**，
-	 * 重新设置CLASSPATH,加入sigar，以支持dll,so等文件的加入与读取
-	 */
-	private static void resetClasspath(){
-		String libPath = System.getProperty("java.library.path");
-		String classpath = ServerStatusCollector.class.getResource("/").getPath();
-		System.setProperty("java.library.path",classpath+File.separator+"sigar"+File.pathSeparator+libPath);
-	}
+
 	/**
 	 * 获取服务器状态信息
 	 * @return
 	 */
 	public static ServerStatusVo getServerAllStatus(){
 		ServerStatusVo status = new ServerStatusVo();
-
-    	Sigar sigar = null;
 		try {
-			
 			getServerBaseInfo(status);
-			
-            sigar = new Sigar();
-            getServerCpuInfo(sigar, status);
-            getServerDiskInfo(sigar, status);
-            getServerMemoryInfo(sigar, status);
-			
+			getServerCpuInfo(status);
+			getServerDiskInfo(status);
+			getServerMemoryInfo(status);
 		} catch (Exception e) {
-			return null;
-		}finally{
-			if(sigar != null)sigar.close();
+			return status;
 		}
-
 		return status;
 	}
 	
@@ -113,13 +77,13 @@ public class ServerStatusCollector {
 	 */
 	public static void getServerBaseInfo(ServerStatusVo status){
 		status.setServerTime(DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
-		status.setServerName(System.getenv().get("COMPUTERNAME"));
+		status.setServerName(getServerName());
 //		status.setJavaServer(RuntimeContext.getContext().getServerName());
 //		status.setDeployPath(RuntimeContext.getContext().getDeployPath());
 		
 		Runtime rt = Runtime.getRuntime();
-		status.setJvmTotalMem(rt.totalMemory()/(1024*1024));
-		status.setJvmFreeMem(rt.freeMemory()/(1024*1024));
+		status.setJvmTotalMem(rt.totalMemory()/MB);
+		status.setJvmFreeMem(rt.freeMemory()/MB);
 		
 		Properties props = System.getProperties();
 		status.setServerOs(props.getProperty("os.name") + " " + props.getProperty("os.arch") + " " + props.getProperty("os.version"));
@@ -129,137 +93,125 @@ public class ServerStatusCollector {
 
 	}
 	
-	public static void getServerCpuInfo(Sigar sigar,ServerStatusVo status){
-		try {
-			CpuInfo infos[] = sigar.getCpuInfoList();
-			CpuPerc cpuList[] = sigar.getCpuPercList();
-			
-			//同一型号CPU放一起统一计算
-			Map<String, CpuInfoVo> cpuTypeByModel = new HashMap<String, ServerStatusVo.CpuInfoVo>();
-			CpuInfoVo cpuInfo;
-			for (int i = 0; i < infos.length; i++) {
-	        	CpuPerc perc = cpuList[i];
-	        	if(!cpuTypeByModel.containsKey(infos[i].getModel())){
-	        		cpuInfo = new CpuInfoVo();
-	        		cpuInfo.setCacheSize(infos[i].getCacheSize());
-					cpuInfo.setModel(infos[i].getModel());
-					cpuInfo.setTotalMHz(infos[i].getMhz());
-					cpuInfo.setVendor(infos[i].getVendor());
-					cpuTypeByModel.put(infos[i].getModel(), cpuInfo);
-	        	}else{
-	        		cpuInfo = cpuTypeByModel.get(infos[i].getModel());
-	        	}
-				
-	        	cpuInfo.setUsed(cpuInfo.getUsed() + perc.getCombined());
-	        	cpuInfo.setIdle(cpuInfo.getIdle() + perc.getIdle());
-	        	cpuInfo.setCoreCount(cpuInfo.getCoreCount() + 1);
+	private static String getServerName() {
+		String name = System.getenv().get("COMPUTERNAME");
+		if (name == null || name.trim().length() == 0) {
+			name = System.getenv().get("HOSTNAME");
+		}
+		if (name == null || name.trim().length() == 0) {
+			try {
+				name = InetAddress.getLocalHost().getHostName();
+			} catch (Exception e) {
+				name = "localhost";
 			}
-			//
-			status.getCpuInfos().addAll(cpuTypeByModel.values());
-			
+		}
+		return name;
+	}
+	
+	public static void getServerCpuInfo(ServerStatusVo status){
+		try {
+			java.lang.management.OperatingSystemMXBean standardBean = ManagementFactory.getOperatingSystemMXBean();
+			OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+			int processors = Math.max(1, standardBean.getAvailableProcessors());
+			double cpuLoad = -1D;
+			if (osBean != null) {
+				cpuLoad = osBean.getSystemCpuLoad();
+			}
+			if (cpuLoad < 0D) {
+				double loadAverage = standardBean.getSystemLoadAverage();
+				cpuLoad = loadAverage >= 0D ? loadAverage / processors : 0D;
+			}
+			cpuLoad = Math.max(0D, Math.min(1D, cpuLoad));
+
+			CpuInfoVo cpuInfo = new CpuInfoVo();
+			cpuInfo.setCacheSize(0L);
+			cpuInfo.setModel(standardBean.getArch());
+			cpuInfo.setTotalMHz(0);
+			cpuInfo.setVendor(System.getProperty("java.vendor"));
+			cpuInfo.setUsed(cpuLoad * processors);
+			cpuInfo.setIdle((1D - cpuLoad) * processors);
+			cpuInfo.setCoreCount(processors);
+			status.getCpuInfos().add(cpuInfo);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
 	
-    public static void getServerMemoryInfo(Sigar sigar,ServerStatusVo status){
+    public static void getServerMemoryInfo(ServerStatusVo status){
 		try {
-			Mem mem = sigar.getMem();
-			status.setTotalMem(mem.getTotal()/(1024*1024));
-			status.setUsedMem(mem.getUsed()/(1024*1024));
-			status.setFreeMem(mem.getFree()/(1024*1024));
+			OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+			long totalMem = osBean == null ? 0L : osBean.getTotalPhysicalMemorySize();
+			long freeMem = osBean == null ? 0L : osBean.getFreePhysicalMemorySize();
+			if (totalMem <= 0L) {
+				Runtime rt = Runtime.getRuntime();
+				totalMem = rt.totalMemory();
+				freeMem = rt.freeMemory();
+			}
+			status.setTotalMem(totalMem/MB);
+			status.setFreeMem(freeMem/MB);
+			status.setUsedMem((totalMem - freeMem)/MB);
 			//交换区
-			Swap swap = sigar.getSwap();
-			status.setTotalSwap(swap.getTotal()/(1024*1024));
-			status.setUsedSwap(swap.getUsed()/(1024*1024));
-			status.setFreeSwap(swap.getFree()/(1024*1024));
+			long totalSwap = osBean == null ? 0L : osBean.getTotalSwapSpaceSize();
+			long freeSwap = osBean == null ? 0L : osBean.getFreeSwapSpaceSize();
+			status.setTotalSwap(totalSwap/MB);
+			status.setFreeSwap(freeSwap/MB);
+			status.setUsedSwap((totalSwap - freeSwap)/MB);
 		} catch (Exception e) {
 
 		}
 	}
     
     
-    public static void getServerDiskInfo(Sigar sigar,ServerStatusVo status){
+    public static void getServerDiskInfo(ServerStatusVo status){
 		try {
-			FileSystem fslist[] = sigar.getFileSystemList();
-			FileSystemUsage usage = null;
-			for (int i = 0; i < fslist.length; i++) {
-				FileSystem fs = fslist[i];
-				switch (fs.getType()) {
-				case 0: // TYPE_UNKNOWN ：未知
-				case 1: // TYPE_NONE
-				case 3:// TYPE_NETWORK ：网络
-				case 4:// TYPE_RAM_DISK ：闪存
-				case 5:// TYPE_CDROM ：光驱
-				case 6:// TYPE_SWAP ：页面交换
-					break;
-				case 2: // TYPE_LOCAL_DISK : 本地硬盘
-					DiskInfoVo disk = new DiskInfoVo();
-					disk.setDevName(fs.getDevName());
-					disk.setDirName(fs.getDirName());
-					usage = sigar.getFileSystemUsage(fs.getDirName());
-					disk.setTotalSize(usage.getTotal()/(1024*1024));
-					//disk.setFreeSize(usage.getFree()/(1024*1024));
-					disk.setAvailSize(usage.getAvail()/(1024*1024));
-					disk.setUsedSize(usage.getUsed()/(1024*1024));
-					disk.setUsePercent(usage.getUsePercent() * 100D + "%");
-					disk.setTypeName(fs.getTypeName());
-					disk.setSysTypeName(fs.getSysTypeName());
-					
-					String val = diskWritesAndReadsOnInit.get(fs.getDevName());
-					if(val != null){
-						long timePeriod = (System.currentTimeMillis() - initTime)/1000;
-						long origRead = Long.parseLong(val.split("\\|")[0]);
-						long origWrite = Long.parseLong(val.split("\\|")[1]);
-						disk.setDiskReadRate((double)(usage.getDiskReadBytes() - origRead)/timePeriod);
-						disk.setDiskWriteRate((double)(usage.getDiskWriteBytes() - origWrite)/timePeriod);
-					}
-					
-					status.getDiskInfos().add(disk);
-					
+			File[] roots = File.listRoots();
+			if (roots == null || roots.length == 0) {
+				roots = new File[] {new File(File.separator)};
+			}
+			for (int i = 0; i < roots.length; i++) {
+				File root = roots[i];
+				long total = root.getTotalSpace();
+				if (total <= 0L) {
+					continue;
 				}
+				long usable = root.getUsableSpace();
+				long used = total - usable;
+				DiskInfoVo disk = new DiskInfoVo();
+				disk.setDevName(root.getAbsolutePath());
+				disk.setDirName(root.getAbsolutePath());
+				disk.setTotalSize(total/MB);
+				disk.setAvailSize(usable/MB);
+				disk.setUsedSize(used/MB);
+				disk.setUsePercent(String.format(Locale.US, "%.2f%%", used * 100D / total));
+				disk.setTypeName("local");
+				disk.setSysTypeName(System.getProperty("os.name"));
+
+				String val = diskWritesAndReadsOnInit.get(root.getAbsolutePath());
+				if(val != null){
+					long timePeriod = Math.max(1L, (System.currentTimeMillis() - initTime)/1000);
+					long origRead = Long.parseLong(val.split("\\|")[0]);
+					long origWrite = Long.parseLong(val.split("\\|")[1]);
+					disk.setDiskReadRate((double)(0L - origRead)/timePeriod);
+					disk.setDiskWriteRate((double)(0L - origWrite)/timePeriod);
+				}
+
+				status.getDiskInfos().add(disk);
 			}
 		} catch (Exception e) {
 
 		}
 	}
     
-    public static void getNetInfo(Sigar sigar,ServerStatusVo status){
-    	try {
-    		 String ifNames[] = sigar.getNetInterfaceList();
-    	        for (int i = 0; i < ifNames.length; i++) {
-    	            String name = ifNames[i];
-    	            NetInterfaceConfig ifconfig = sigar.getNetInterfaceConfig(name);
-    	            if ((ifconfig.getFlags() & 1L) <= 0L) {
-    	                System.out.println("!IFF_UP...skipping getNetInterfaceStat");
-    	                continue;
-    	            }
-    	            NetInterfaceStat ifstat = sigar.getNetInterfaceStat(name);
-    	            System.out.println(name + "接收的总包裹数:" + ifstat.getRxPackets());// 接收的总包裹数
-    	            System.out.println(name + "发送的总包裹数:" + ifstat.getTxPackets());// 发送的总包裹数
-    	            System.out.println(name + "接收到的总字节数:" + ifstat.getRxBytes());// 接收到的总字节数
-    	            System.out.println(name + "发送的总字节数:" + ifstat.getTxBytes());// 发送的总字节数
-    	            System.out.println(name + "接收到的错误包数:" + ifstat.getRxErrors());// 接收到的错误包数
-    	            System.out.println(name + "发送数据包时的错误数:" + ifstat.getTxErrors());// 发送数据包时的错误数
-    	            System.out.println(name + "接收时丢弃的包数:" + ifstat.getRxDropped());// 接收时丢弃的包数
-    	            System.out.println(name + "发送时丢弃的包数:" + ifstat.getTxDropped());// 发送时丢弃的包数
-    	        }
-		} catch (Exception e) {
-			
-		}
+    public static void getNetInfo(ServerStatusVo status){
+    	// JDK does not expose cross-platform network traffic counters.
     }
     
     public static void main(String[] args) {
-			ServerStatusVo status = new ServerStatusVo();
-	    	Sigar sigar = null;
-			try {
-	            sigar = new Sigar();
-	            getServerCpuInfo(sigar, status);
-	            
-	            CpuInfoVo x = status.getCpuInfos().get(0);
-				System.out.println(x.getIdlePercent());
-				System.out.println(x.getUsedPercent());
-	            
+		try {
+			ServerStatusVo status = getServerAllStatus();
+			CpuInfoVo x = status.getCpuInfos().get(0);
+			System.out.println(x.getIdlePercent());
+			System.out.println(x.getUsedPercent());
 		} catch (Exception e) {
 			// TODO: handle exception
 		} 

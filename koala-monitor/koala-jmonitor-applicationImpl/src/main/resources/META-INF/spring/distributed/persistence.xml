@@ -25,7 +25,7 @@
 
 	<!-- Creates a EntityManagerFactory for use with the Hibernate JPA provider 
 		and a simple in-memory data source populated with test data -->
-	<bean id="km_entityManagerFactory"
+	<bean id="km_entityManagerFactory" depends-on="km_schemaInitializer"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation"
 			value="classpath*:META-INF/spring/distributed/jpa.xml" />
@@ -37,22 +37,34 @@
 				<property name="databasePlatform" value="${km.hibernate.dialect}"></property>
 			</bean>
 		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">${km.hibernate.hbm2ddl.auto}</prop>
+			</props>
+		</property>
 	</bean>
 
 
 
-	<bean id="km_dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
-		<property name="alias" value="monotorDB_POOL" />
-		<property name="driver" value="${km.db.jdbc.driver}" />
-		<property name="driverUrl" value="${km.db.jdbc.connection.url}" />
-		<property name="user" value="${km.db.jdbc.username}" />
+	<bean id="km_dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${km.db.jdbc.driver}" />
+		<property name="url" value="${km.db.jdbc.connection.url}" />
+		<property name="username" value="${km.db.jdbc.username}" />
 		<property name="password" value="${km.db.jdbc.password}" />
-		<property name="prototypeCount" value="5" />
-		<property name="maximumConnectionCount" value="100" />
-		<property name="simultaneousBuildThrottle" value="50" />
-		<property name="maximumActiveTime" value="180000" />
-		<property name="minimumConnectionCount" value="5" />
-		<property name="houseKeepingTestSql" value="select 1 from dual" />
+	</bean>
+
+	<bean id="km_schemaInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+		<property name="dataSource" ref="km_dataSource" />
+		<property name="databasePopulator">
+			<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+				<property name="continueOnError" value="true" />
+				<property name="scripts">
+					<list>
+						<value>classpath:META-INF/sql/monitor-h2-schema.sql</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="km_jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -65,9 +77,13 @@
 		<property name="transactionManager" ref="km_transactionManager" />
 	</bean>
 	
-	<bean id="km_repository" class="org.dayatang.persistence.jpa.EntityRepositoryJpa">
-		<constructor-arg name="entityManagerFactory" ref="km_entityManagerFactory"/>
-	</bean>
+	    <bean id="kmEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" scope="prototype">
+	        <property name="persistenceUnitName" value="monitor" />
+	    </bean>
+
+		<bean id="km_repository" class="org.dayatang.persistence.jpa.EntityRepositoryJpa">
+			<constructor-arg ref="kmEntityManager"/>
+		</bean>
 
 	<bean id="km_queryChannel" class="org.dayatang.querychannel.impl.QueryChannelServiceImpl">
 		<constructor-arg name="repository" ref="km_repository"/>

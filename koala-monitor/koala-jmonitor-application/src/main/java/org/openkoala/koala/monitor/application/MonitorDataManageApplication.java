@@ -18,7 +18,7 @@ package org.openkoala.koala.monitor.application;
 import java.util.List;
 import java.util.Map;
 
-import org.dayatang.querychannel.Page;
+import org.dayatang.utils.Page;
 import org.openkoala.koala.monitor.model.CountVo;
 import org.openkoala.koala.monitor.model.HttpDetailsVo;
 import org.openkoala.koala.monitor.model.JdbcStatementDetailsVo;

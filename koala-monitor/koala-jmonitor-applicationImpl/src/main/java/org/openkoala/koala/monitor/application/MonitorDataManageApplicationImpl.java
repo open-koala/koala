@@ -33,7 +33,7 @@ import javax.interceptor.Interceptors;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.dayatang.domain.InstanceFactory;
-import org.dayatang.querychannel.Page;
+import org.dayatang.utils.Page;
 import org.dayatang.querychannel.QueryChannelService;
 import org.openkoala.koala.commons.KoalaBeanUtils;
 import org.openkoala.koala.monitor.common.Constant;

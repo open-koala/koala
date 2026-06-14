@@ -20,7 +20,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.dayatang.querychannel.Page;
+import org.dayatang.utils.Page;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;

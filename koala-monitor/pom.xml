@@ -18,7 +18,7 @@
 		<module>koala-jmonitor-mina</module>
 		<module>koala-jmonitor-core</module>
 		<module>koala-jmonitor-model</module>
-		<!--<module>koala-jmonitor-web-mvc</module>-->
+		<module>koala-jmonitor-web-mvc</module>
 	</modules>
 	
 	<profiles>
@@ -37,7 +37,7 @@
 				<hibernate.show_sql>true</hibernate.show_sql>
 				<hibernate.dialect>org.hibernate.dialect.H2Dialect</hibernate.dialect>
 				<db.jdbcDriver>org.h2.Driver</db.jdbcDriver>
-				<db.connectionURL>jdbc:h2:mem:testdb</db.connectionURL>
+				<db.connectionURL>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</db.connectionURL>
 				<db.username>sa</db.username>
 				<db.password/>
 				<db.Type>H2</db.Type>

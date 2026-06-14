@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.dayatang.querychannel.Page;
+import org.dayatang.utils.Page;
 import org.openkoala.koala.monitor.application.MonitorDataManageApplication;
 import org.openkoala.koala.monitor.application.MonitorNodeManageApplication;
 import org.openkoala.koala.monitor.common.Constant;
