@@ -17,6 +17,7 @@
 		<module>koala-bpm-form-application</module>
 		<module>koala-bpm-form-applicationImpl</module>
 		<module>koala-bpm-form-infra-impl</module>
+		<module>koala-bpm-form-web</module>
 	</modules>
 
 </project>

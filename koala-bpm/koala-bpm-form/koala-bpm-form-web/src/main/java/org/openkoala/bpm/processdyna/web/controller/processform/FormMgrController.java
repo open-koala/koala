@@ -7,12 +7,13 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.openkoala.bpm.application.DynaProcessApplication;
+import org.dayatang.querychannel.Page;
 import org.openkoala.bpm.application.ProcessFormOperApplication;
 import org.openkoala.bpm.application.dto.DynaProcessFormDTO;
 import org.openkoala.bpm.application.dto.DynaProcessTemplateDTO;
 import org.openkoala.bpm.application.dto.ProcessDTO;
 import org.openkoala.bpm.application.dto.SelectOptions;
+import org.openkoala.bpm.processdyna.core.DynaProcessForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.dayatang.querychannel.support.Page;
 
 @Controller
 @RequestMapping("/processform")
@@ -29,13 +29,10 @@ public class FormMgrController {
 	@Inject
 	private ProcessFormOperApplication processFormOperApplication;
 	
-	@Inject 
-	private DynaProcessApplication dynaProcessApplication;
-
 	@RequestMapping("/list")
 	public String listForms(DynaProcessFormDTO search, ModelMap modelMap) {
 		// 初始化表单条件
-		List<ProcessDTO> processes = processFormOperApplication.getActiveProcesses();
+		List<ProcessDTO> processes = processFormOperApplication.getActiveProcesses(new String[0]);
 		modelMap.put("processes", processes);
 		List<DynaProcessTemplateDTO> templates = processFormOperApplication.getActiveProcessTemplates();
 		modelMap.put("templates", templates);
@@ -53,10 +50,10 @@ public class FormMgrController {
 	public Map<String, Object> getFormList(HttpServletRequest request,Integer page,int pagesize) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		Page<DynaProcessFormDTO> pageObj = processFormOperApplication.queryDynaProcessFormsByPage(null, page, pagesize);
-		dataMap.put("Rows", pageObj.getResult());
+		dataMap.put("Rows", pageObj.getData());
 		dataMap.put("start", pageObj.getStart());
 		dataMap.put("limit", pagesize);
-		dataMap.put("Total", pageObj.getTotalCount());
+		dataMap.put("Total", pageObj.getResultCount());
 		return dataMap;
 	}
 
@@ -98,7 +95,7 @@ public class FormMgrController {
 	@RequestMapping("/templatePreview")
 	public Map<String, Object> templatePreview(Long formId) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("data", dynaProcessApplication.packagingHtml(formId));
+		dataMap.put("data", DynaProcessForm.load(DynaProcessForm.class, formId).packagingHtml());
 		return dataMap;
 	}
 

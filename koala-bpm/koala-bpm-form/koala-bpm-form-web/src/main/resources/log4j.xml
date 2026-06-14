@@ -3,22 +3,22 @@
                                     "http://logging.apache.org/log4j/docs/api/org/apache/log4j/xml/log4j.dtd">
 <log4j:configuration>
 	<appender class="org.apache.log4j.ConsoleAppender" name="RootConsoleAppender">
-		<param name="Threshold" value="debug" />
+		<param name="Threshold" value="info" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n" />
 		</layout>
 	</appender>
 
 	<category name="me.lingen">
-		<priority value="debug" />
+		<priority value="info" />
 	</category>
 
 	<category name="org.springframework">
-		<priority value="debug" />
+		<priority value="info" />
 	</category>
 
 	<category name="org.hibernate">
-		<priority value="debug" />
+		<priority value="warn" />
 	</category>
 	<category name="org.dbunit">
 		<priority value="warn" />
@@ -34,11 +34,11 @@
 		<priority value="warn" />
 	</category>
 	<category name="com.opensymphony">
-		<priority value="debug" />
+		<priority value="info" />
 	</category>
 
 	<root>
-		<level value="debug" />
+		<level value="info" />
 		<appender-ref ref="RootConsoleAppender" />
 	</root>
 

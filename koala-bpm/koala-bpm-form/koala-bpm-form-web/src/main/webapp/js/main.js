@@ -34,6 +34,11 @@ $(function(){
 	 加载DIV内容
 	 */
 	var loadContent = function(obj, target){
+		if(/^https?:\/\//i.test(target) || /\.(jsp|koala)(\?|#|$)/i.test(target)){
+			obj.html('<iframe frameborder="0" style="width:100%;height:100%;min-height:650px;" src="' + target + '"></iframe>');
+			changeHeight();
+			return;
+		}
 		$.ajax({
 			url: target,
 			dataType: 'html'

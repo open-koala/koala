@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.dayatang.domain.IocInstanceNotFoundException;
 import org.dayatang.domain.InstanceFactory;
 import org.dayatang.querychannel.Page;
 import org.dayatang.querychannel.QueryChannelService;
@@ -152,6 +153,8 @@ public class ProcessFormOperApplicationImpl implements
 					datas.add(new ProcessDTO(process.getId(), process.getName()));
 				}
 			}
+		} catch (IocInstanceNotFoundException e) {
+			LOG.warn("JBPMApplication bean is not available, process selection will be empty.");
 		} catch (Exception e) {
 			LOG.error("load process list", e);
 		}
