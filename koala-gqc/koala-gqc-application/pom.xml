@@ -49,10 +49,6 @@
 			<artifactId>proxool</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.openkoala.gqc</groupId>
 			<artifactId>koala-gqc-infra</artifactId>
 			<version>${project.parent.version}</version>
@@ -77,10 +73,6 @@
 		<dependency>
 			<groupId>org.dayatang.dddlib</groupId>
 			<artifactId>dddlib-persistence-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>proxool</groupId>
-			<artifactId>proxool</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>proxool</groupId>
@@ -112,11 +104,6 @@
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-		</dependency>
-		<!-- 加入Spring对JPA的支持 -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.openkoala.koalacommons</groupId>

@@ -92,19 +92,10 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-		<!-- 加入Spring对JPA的支持 -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.openkoala.koalacommons</groupId>
 			<artifactId>koala-commons-support</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>proxool</groupId>
-			<artifactId>proxool</artifactId>
 		</dependency>
 
 		<!-- 依赖动态表单的实现 -->

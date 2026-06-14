@@ -21,7 +21,7 @@
     <properties>
         <db.groupId>mysql</db.groupId>
         <db.artifactId>mysql-connector-java</db.artifactId>
-        <db.version>5.1.22</db.version>
+        <db.version>${mysql.connector.version}</db.version>
         <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
         <hibernate.show_sql>true</hibernate.show_sql>
         <hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>

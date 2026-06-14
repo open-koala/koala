@@ -129,14 +129,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<dayatang.commons.version>3.5</dayatang.commons.version>
-		<struts2.version>2.3.4</struts2.version>
-		<spring.version>3.1.2.RELEASE</spring.version>
-		<spring.security.version>3.0.8.RELEASE</spring.security.version>
+		<struts2.version>2.3.16</struts2.version>
+		<spring.version>4.3.30.RELEASE</spring.version>
+		<spring.security.version>3.2.0.RELEASE</spring.security.version>
 		<aspectj.version>1.6.12</aspectj.version>
 
-		<drools.version>5.3.1.BRMS</drools.version>
-		<jbpm.version>5.3.1.BRMS</jbpm.version>
-		<cxf.version>2.2.3</cxf.version>
+		<drools.version>5.5.0.Final</drools.version>
+		<jbpm.version>5.4.0.Final</jbpm.version>
+		<cxf.version>2.6.2</cxf.version>
 
 		<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
 		<hibernate.show_sql>true</hibernate.show_sql>

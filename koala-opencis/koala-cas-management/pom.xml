@@ -45,6 +45,7 @@
 				<db.generateDdl>true</db.generateDdl>
 				<db.groupId>com.h2database</db.groupId>
 				<db.artifactId>h2</db.artifactId>
+				<db.version>${h2.version}</db.version>
 				<generateDdl>true</generateDdl>
 			</properties>
 		</profile>
@@ -62,6 +63,7 @@
 				<db.generateDdl>true</db.generateDdl>
 				<db.groupId>mysql</db.groupId>
 				<db.artifactId>mysql-connector-java</db.artifactId>
+				<db.version>${mysql.connector.version}</db.version>
 				<generateDdl>true</generateDdl>
 			</properties>
 		</profile>

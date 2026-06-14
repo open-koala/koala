@@ -11,7 +11,6 @@
 	<packaging>jar</packaging>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<dayatang.commons.version>3.5</dayatang.commons.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.type>infra</project.type>
 		<base.package>org.openkoala.bpm.processdyna.infra</base.package>

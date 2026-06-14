@@ -51,12 +51,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
