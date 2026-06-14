@@ -121,7 +121,6 @@
 		<dependency>
 			<groupId>org.dayatang.dddlib</groupId>
 			<artifactId>dddlib-utils</artifactId>
-			<version>4.4.5</version>
 		</dependency>
 
 		<dependency>

@@ -20,10 +20,6 @@
 		<module>koala-cas-management-web</module>
 	</modules>
 
-	<properties>
-		<dddlib.version>4.4.5</dddlib.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>${db.groupId}</groupId>
