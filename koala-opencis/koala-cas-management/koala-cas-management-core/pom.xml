@@ -31,14 +31,6 @@
 			<artifactId>dddlib-domain</artifactId>
 			
 		</dependency>
-		<!-- 加入CONF依赖 -->
-		<dependency>
-			<groupId>org.openkoala.cas</groupId>
-			<artifactId>koala-cas-management-conf</artifactId>
-			<version>${project.parent.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
 		<!-- 加入Spring对JPA的支持 -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>

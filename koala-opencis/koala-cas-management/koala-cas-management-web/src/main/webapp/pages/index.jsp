@@ -1,9 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="ss3" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="java.util.Date"%>
-<%Long time = new Date().getTime();%>
+<%@ page import="org.apache.shiro.SecurityUtils"%>
+<%
+Long time = new Date().getTime();
+String currentUser = "koala";
+Object principal = SecurityUtils.getSubject().getPrincipal();
+if (principal != null) {
+    try {
+        Object userAccount = principal.getClass().getMethod("getUserAccount").invoke(principal);
+        currentUser = userAccount == null ? principal.toString() : String.valueOf(userAccount);
+    } catch (Exception e) {
+        currentUser = principal.toString();
+    }
+}
+%>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -30,7 +42,7 @@
 	            <div class="btn-group navbar-right">
 	                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 	                    <i class="glyphicon glyphicon-user"></i>
-	                    <span>&nbsp;<ss3:authentication property="principal.username" /></span>
+	                    <span>&nbsp;<%=currentUser%></span>
 	                    <span class="caret"></span>
 	                </button>
 	                <ul class="dropdown-menu" id="userManager">

@@ -16,15 +16,24 @@
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
-	
-	       <!-- ss3过滤器链 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- shiro filter -->
 	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
 	<servlet>
@@ -49,10 +58,26 @@
 	<listener>
 		<listener-class>org.dayatang.ioc.spring.webapp.DayatangContextLoaderListener</listener-class>
 	</listener>
-	
 	<listener>
-		<listener-class>org.openkoala.koala.auth.web.InitSuperUserListener</listener-class>
+		<listener-class>org.openkoala.security.listener.SecurityDBInitListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>org.openkoala.security.listener.SystemEvenmentListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>jsp</servlet-name>
+		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+		<init-param>
+			<param-name>compilerSourceVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>compilerTargetVM</param-name>
+			<param-value>1.8</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
 
 	<session-config>
 		<session-timeout>120</session-timeout>
@@ -81,7 +106,7 @@
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>org.openkoala.cas.casmanagement.application.impl.ServiceApplication</param-value>
+			<param-value>org.openkoala.cas.casmanagement.web.LocalServiceApplication</param-value>
 		</init-param>
 	</servlet>
 

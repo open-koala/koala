@@ -21,29 +21,45 @@
 	</modules>
 
 	<properties>
-		<dddlib.version>4.3.0</dddlib.version>
+		<dddlib.version>4.4.5</dddlib.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>${db.groupId}</groupId>
+			<artifactId>${db.artifactId}</artifactId>
 		</dependency>
 	</dependencies>
 
 	<profiles>
 		<profile>
-			<id>mysql</id>
+			<id>h2</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
 				<hibernate.show_sql>true</hibernate.show_sql>
+				<hibernate.dialect>org.hibernate.dialect.H2Dialect</hibernate.dialect>
+				<db.jdbcDriver>org.h2.Driver</db.jdbcDriver>
+				<db.connectionURL>jdbc:h2:mem:cas_user_manage;DB_CLOSE_DELAY=-1</db.connectionURL>
+				<db.username>sa</db.username>
+				<db.password/>
+				<db.Type>H2</db.Type>
+				<db.generateDdl>true</db.generateDdl>
+				<db.groupId>com.h2database</db.groupId>
+				<db.artifactId>h2</db.artifactId>
+				<generateDdl>true</generateDdl>
+			</properties>
+		</profile>
+		<profile>
+			<id>mysql</id>
+			<properties>
+				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+				<hibernate.show_sql>true</hibernate.show_sql>
 				<hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>
 				<db.jdbcDriver>com.mysql.jdbc.Driver</db.jdbcDriver>
-				<db.connectionURL>jdbc:mysql://127.0.0.1:3306/cas_user_manage?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
-				</db.connectionURL>
+				<db.connectionURL>jdbc:mysql://127.0.0.1:3306/cas_user_manage?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</db.connectionURL>
 				<db.username>root</db.username>
 				<db.password>root</db.password>
 				<db.Type>MYSQL</db.Type>

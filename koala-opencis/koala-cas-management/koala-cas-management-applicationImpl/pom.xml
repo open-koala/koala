@@ -36,13 +36,6 @@
             <version>${project.parent.version}</version>
         </dependency>  
         <dependency> 
-            <groupId>org.openkoala.cas</groupId>  
-            <artifactId>koala-cas-management-conf</artifactId>  
-            <version>${project.parent.version}</version>
-            <type>test-jar</type>  
-            <scope>test</scope> 
-        </dependency>  
-        <dependency> 
             <groupId>org.hibernate</groupId>  
             <artifactId>hibernate-entitymanager</artifactId> 
         </dependency>
@@ -106,18 +99,19 @@
             <groupId>proxool</groupId>  
             <artifactId>proxool</artifactId> 
         </dependency> 
-        <dependency> 
-            <groupId>org.openkoala.security</groupId>  
-            <artifactId>koala-security-application</artifactId> 
-            <version>${koala.security.version}</version> 
-        </dependency> 
-       	<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-auth</artifactId>
-			<version>${koala.security.version}</version> 
-		</dependency>
     </dependencies>  
     <build> 
-        <plugins/> 
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>org/openkoala/cas/casmanagement/application/impl/CasUserApplicationImpl.java</exclude>
+                        <exclude>org/openkoala/cas/casmanagement/application/impl/ServiceApplication.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins> 
     </build> 
 </project>

@@ -20,8 +20,8 @@
 	<dependencies>
 	
 	    <dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>${db.groupId}</groupId>
+			<artifactId>${db.artifactId}</artifactId>
 		</dependency>
 		
 		<dependency>

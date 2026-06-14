@@ -7,7 +7,7 @@
 <title>欢迎使用Koala</title>
 <link href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.min.css"   rel="stylesheet">
 <script type="text/javascript" src="${pageContext.request.contextPath}/lib/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/lib/respond.min.js"</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/lib/respond.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/lib/koala-ui.plugin.js"></script>	
 <style type="text/css">
@@ -118,17 +118,14 @@ body {
 }
 </style>
 <script type="text/javascript">
-	function login() {
-		$('#loginFormId').submit();
-	}
-	
+	var contextPath = '${pageContext.request.contextPath}';
+
 	function refreshCode(){
-		
 		$('#checkCode').attr('src',"jcaptcha.jpg?time="+new Date().getTime());
 	}
-	
 </script>
 </head>
+<% response.setHeader("login","login"); %>
 <body>
 	<div class="head"></div>
 	<div class="logo">
@@ -157,27 +154,29 @@ body {
 							});
 				     	</script>
 			</c:if>
-			<FORM id=loginFormId method=post action="j_spring_security_check" class="form-horizontal">
+			<FORM id="loginFormId" method="post" action="login" class="form-horizontal">
 				<div class="form-group input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                    <input type="text" class="form-control" placeholder="用户名"  name="j_username" id="j_username">
+                    <input type="text" class="form-control" placeholder="用户名" name="username" id="j_username" value="koala">
 				</div>
                 <div class="form-group input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                    <input type="password" name="j_password" id="j_password" class="form-control" placeholder="密码"/>
+                    <input type="password" name="password" id="j_password" class="form-control" placeholder="密码" value="888888"/>
                 </div>
-				<div class="form-group input-group">
-				    <span class="input-group-addon"><span class="glyphicon glyphicon-magnet"></span></span>
-					<input type="text" name="jcaptcha" value="" class="form-control" placeholder="验证码"/>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3"></label>
-					<div class="col-lg-9">
-						<img src="jcaptcha.jpg" id="checkCode" onclick="refreshCode();" class="checkCode"/>
+				<c:if test="${!jCaptchaDisabled}">
+					<div class="form-group input-group">
+					    <span class="input-group-addon"><span class="glyphicon glyphicon-magnet"></span></span>
+						<input type="text" name="jCaptchaCode" value="" class="form-control" placeholder="验证码"/>
 					</div>
-				</div>
+					<div class="form-group">
+						<label class="col-lg-3"></label>
+						<div class="col-lg-9">
+							<img src="jcaptcha.jpg" id="checkCode" onclick="refreshCode();" class="checkCode"/>
+						</div>
+					</div>
+				</c:if>
 				<div class="form-group input-group">
-					<button class="btn btn-primary btn-login" onclick="javascript:login()">登陆</button>
+					<button type="button" class="btn btn-primary btn-login" id="loginBtn">登录</button>
 				</div>
 				<!--<h4>登录</h4>
 				<ul>
@@ -207,6 +206,52 @@ body {
 		</div>
 	</div>
 	<div class="login_footer">Koala 版权信息 2013</div>
+	<script type="text/javascript">
+	$(function() {
+		var btnLogin = $('#loginBtn');
+		var form = $('#loginFormId');
+		$('#j_username').focus();
+		$('body').keydown(function(e) {
+			if (e.keyCode == 13) {
+				doLogin();
+			}
+		});
+		btnLogin.on('click', doLogin);
+
+		function doLogin() {
+			var username = $('#j_username').val();
+			var password = $('#j_password').val();
+			if (!username) {
+				alert('用户名不能为空');
+				return;
+			}
+			if (!password) {
+				alert('密码不能为空');
+				return;
+			}
+			btnLogin.attr('disabled', 'disabled').html('正在登录...');
+			$.ajax({
+				url: contextPath + '/login.koala',
+				dataType: 'json',
+				data: form.serialize(),
+				type: 'POST',
+				success: function(data) {
+					if (data.success) {
+						window.location.href = contextPath + '/index.koala';
+						return;
+					}
+					btnLogin.removeAttr('disabled').html('登录');
+					alert(data.errorMessage || '登录失败');
+					refreshCode();
+				},
+				error: function() {
+					btnLogin.removeAttr('disabled').html('登录');
+					alert('登录失败');
+					refreshCode();
+				}
+			});
+		}
+	});
+	</script>
 </body>
-</html>
 </html>

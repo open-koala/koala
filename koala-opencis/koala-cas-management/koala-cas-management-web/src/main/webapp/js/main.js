@@ -144,20 +144,28 @@ $(function(){
 	 */
 	self.on('modifyPwd',function(){
 		$('body').modifyPassword({
-			service: 'auth/User/updatePassword.koala'
+			service: contextPath + '/auth/currentUser/updatePassword.koala'
 		});
 	});
 	/*
 	 切换用户
 	*/
 	self.on('switchUser',function(){
-		window.location.href = "j_spring_security_logout";
+		$.post(contextPath + '/logout.koala', function(data){
+			if(data.success){
+				window.location.href = contextPath + '/login.koala';
+			}
+		});
 	});
 	/*
 	注销
 	*/
 	self.on('loginOut',function(){
-		window.location.href = "j_spring_security_logout";
+		$.post(contextPath + '/logout.koala', function(data){
+			if(data.success){
+				window.location.href = contextPath + '/login.koala';
+			}
+		});
 	});
 	$('#userManager').find('li').on('click', function(){
 		self.trigger($(this).data('target'));

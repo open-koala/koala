@@ -14,6 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.type>war</project.type>
 		<base.package>org.openkoala.cas.casmanagement.web</base.package>
+		<tomcat.port>8080</tomcat.port>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -50,6 +51,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
@@ -61,8 +70,23 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-core</artifactId>
-			<version>${koala.security.version}</version>
+			<artifactId>koala-security-conf</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openkoala.security</groupId>
+			<artifactId>koala-security-shiro</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openkoala.security</groupId>
+			<artifactId>koala-security-taglibs</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openkoala.security</groupId>
+			<artifactId>koala-security-controller</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -77,29 +101,9 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-ss3Adapter</artifactId>
-			<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.openkoala.koalacommons</groupId>
 			<artifactId>koala-commons-cache</artifactId>
-			<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-application</artifactId>
-			<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-authImpl</artifactId>
-			<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-applicationImpl</artifactId>
-			<version>${koala.security.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -113,15 +117,33 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.31</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>org/openkoala/cas/casmanagement/web/controller/auth/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-					<port>8080</port>
+					<port>${tomcat.port}</port>
 					<path>/</path>
 					<uriEncoding>UTF-8</uriEncoding>
 					<server>tomcat7</server>
