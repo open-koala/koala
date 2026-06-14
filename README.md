@@ -10,16 +10,16 @@ Koala 是一个 Maven 多模块项目，包含基础组件、权限、组织、B
 
 ## 模块结构
 
-- `koala-commons/`：公共工具、领域支持、测试支持。
-- `koala-security/`：权限核心、Shiro 集成和权限 Web。
-- `koala-organisation/`：组织、部门、岗位等组织域能力。
-- `koala-security-org/`：权限与组织集成 Web。
-- `koala-bpm/`：BPM core、designer、form、oss 子系统。
-- `koala-gqc/`：通用查询配置与运行模块。
-- `koala-monitor/`：监控采集、应用与 Web 控制台。
-- `koala-opencis/`：OpenCIS 及 CAS 管理模块。
-- `koala-businesslog/`：业务日志 API、实现、Web 和验收测试。
-- `koala-plugin/`：代码生成与插件支持。
+- `koala-commons`：公共工具、领域支持、测试支持。
+- `koala-security`：权限核心、Shiro 集成和权限 Web。
+- `koala-organisation`：组织、部门、岗位等组织域能力。
+- `koala-security-org`：权限与组织集成 Web。
+- `koala-bpm`：BPM core、designer、form、oss 子系统。
+- `koala-gqc`：通用查询配置与运行模块。
+- `koala-monitor`：监控采集、应用与 Web 控制台。
+- `koala-opencis`：OpenCIS 及 CAS 管理模块。
+- `koala-businesslog`：业务日志 API、实现、Web 和验收测试。
+- `koala-plugin`：代码生成与插件支持。
 
 ## 构建命令
 
@@ -54,17 +54,42 @@ mvn -PMySQL -DskipTests compile
 
 ## 本地启动
 
-推荐从根目录使用 `-pl ... -am` 启动目标 Web 模块：
+推荐从根目录使用 `-pl ... -am` 启动目标 Web 模块。一次启动一个服务；多个服务并行运行时使用不同终端。
 
 ```bash
+# 权限
+mvn -pl koala-security/koala-security-web -am jetty:run
+
+# 组织
+mvn -Djetty.port=8071 -pl koala-organisation/koala-organisation-web -am jetty:run
+
+# 权限 + 组织
 mvn -Djetty.port=8090 -pl koala-security-org/koala-security-org-web -am jetty:run
+
+# GQC
 mvn -Djetty.port=7652 -pl koala-gqc/koala-gqc-web -am jetty:run
+
+# 监控
 mvn -Djetty.port=7653 -pl koala-monitor/koala-jmonitor-web-mvc -am jetty:run
+
+# 业务日志
+mvn -Dcargo.port=7651 -pl koala-businesslog/koala-businesslog-web -am jetty:run
+mvn -Dcargo.port=7654 -pl koala-businesslog/koala-businesslog-acceptance-test -am jetty:run
+
+# BPM
 mvn -Djetty.port=8072 -pl koala-bpm/koala-bpm-form/koala-bpm-form-web -am jetty:run
 mvn -Djetty.port=8073 -pl koala-bpm/koala-bpm-designer/koala-bpm-designer-web -am jetty:run
+mvn -Djetty.port=8074 -pl koala-bpm/koala-bpm-core/koala-bpm-core-war -am jetty:run
+mvn -Djetty.port=8075 -pl koala-bpm/koala-bpm-oss/koala-bpm-oss-web -am jetty:run
+
+# OpenCIS
+mvn -Djetty.port=8076 -pl koala-opencis/koala-openci-platform/koala-openci-platform-web -am jetty:run
+mvn -Dtomcat.port=8077 -pl koala-opencis/koala-cas-management/koala-cas-management-web -am tomcat7:run
 ```
 
 如需切换数据库，加上 `-PH2` 或 `-PMySQL`。
+
+默认访问地址为 `http://localhost:<port>/`；其中 `koala-openci-platform-web` 的访问路径为 `http://localhost:8076/openci-platform`。
 
 ## 开发约定
 
