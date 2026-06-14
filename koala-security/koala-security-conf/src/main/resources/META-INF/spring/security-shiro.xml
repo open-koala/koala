@@ -76,14 +76,9 @@
 		 <property name="customDefaultFilterChainManager" ref="filterChainManager"/>
 	</bean>
 
-	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+	<bean id="shiroFilter" class="org.openkoala.security.shiro.spring.CustomShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject" ref="shiroFilter" />
-		<property name="targetMethod" value="setFilterChainResolver" />
-		<property name="arguments" ref="filterChainResolver" />
+		<property name="filterChainResolver" ref="filterChainResolver" />
 	</bean>
 	
 	<!-- shiro的生命周期，自动初始化和销毁 -->
