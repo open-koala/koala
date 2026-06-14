@@ -342,13 +342,13 @@ public class KoalaEntityManagerFactoryBean extends
 			logger.info("Building JPA container EntityManagerFactory for persistence unit '"
 					+ this.persistenceUnitInfo.getPersistenceUnitName() + "'");
 		}
-		this.nativeEntityManagerFactory = provider
+		EntityManagerFactory nativeEntityManagerFactory = provider
 				.createContainerEntityManagerFactory(this.persistenceUnitInfo,
 						getJpaPropertyMap());
-		postProcessEntityManagerFactory(this.nativeEntityManagerFactory,
+		postProcessEntityManagerFactory(nativeEntityManagerFactory,
 				this.persistenceUnitInfo);
 
-		return this.nativeEntityManagerFactory;
+		return nativeEntityManagerFactory;
 	}
 
 	/**

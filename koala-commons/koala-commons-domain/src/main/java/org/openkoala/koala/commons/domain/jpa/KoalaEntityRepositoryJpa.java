@@ -179,12 +179,10 @@ public class KoalaEntityRepositoryJpa implements
         return results.isEmpty() ? null : results.get(0);
     }
 
-    @Override
     public <T extends Entity> List<T> find(Class<T> entityClass, QueryCriterion criterion) {
         return find(createCriteriaQuery(entityClass).and(criterion));
     }
 
-    @Override
     public <T extends Entity> T getSingleResult(Class<T> entityClass, QueryCriterion criterion) {
         return getSingleResult(createCriteriaQuery(entityClass).and(criterion));
     }
