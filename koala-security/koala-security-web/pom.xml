@@ -21,6 +21,10 @@
 			<artifactId>koala-security-controller</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>koala-security</finalName>
@@ -41,7 +45,7 @@
 					<webApp>
 						<contextPath>/</contextPath>
 					</webApp>
-					<jvmArgs>-Xmx1024m -XX:PermSize=512m -XX:MaxPermSize=1024m
+					<jvmArgs>-Xmx1024m
 						-Dfile.encoding=UTF-8
 					</jvmArgs>
 				</configuration>

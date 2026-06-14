@@ -80,15 +80,6 @@
 							<format>xml</format>
 						</formats>
 					</configuration>
-					<executions>
-						<execution>
-							<id>cobertura</id>
-							<goals>
-								<goal>cobertura</goal>
-							</goals>
-							<phase>test</phase>
-						</execution>
-					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

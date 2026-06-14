@@ -9,12 +9,8 @@
 	<artifactId>koala-security-conf</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>proxool</groupId>
-			<artifactId>proxool</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>proxool</groupId>
-			<artifactId>proxool-cglib</artifactId>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
 		</dependency>
 	</dependencies>
 </project>

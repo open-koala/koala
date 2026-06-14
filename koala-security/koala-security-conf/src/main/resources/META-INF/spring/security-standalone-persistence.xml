@@ -55,16 +55,14 @@
         <constructor-arg name="repository" ref="repository_security" />
     </bean>
 
-	<bean id="dataSource_security" class="org.logicalcobwebs.proxool.ProxoolDataSource">
-		<property name="driver" value="${security.db.jdbc.driver}" />
-		<property name="driverUrl" value="${security.db.jdbc.connection.url}" />
-		<property name="user" value="${security.db.jdbc.username}" />
+	<bean id="dataSource_security" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${security.db.jdbc.driver}" />
+		<property name="url" value="${security.db.jdbc.connection.url}" />
+		<property name="username" value="${security.db.jdbc.username}" />
 		<property name="password" value="${security.db.jdbc.password}" />
-		<property name="prototypeCount" value="5" />
-		<property name="maximumConnectionCount" value="${security.maximumConnectionCount}" />
-		<property name="minimumConnectionCount" value="${security.minimumConnectionCount}" />
-		<property name="houseKeepingTestSql" value="select 1" />
-		<property name="testBeforeUse" value="true" />
-		<property name="alias" value="${security.db.dataSource.alias}" />
+		<property name="maxActive" value="${security.maximumConnectionCount}" />
+		<property name="minIdle" value="${security.minimumConnectionCount}" />
+		<property name="validationQuery" value="select 1" />
+		<property name="testOnBorrow" value="true" />
 	</bean>
 </beans>
