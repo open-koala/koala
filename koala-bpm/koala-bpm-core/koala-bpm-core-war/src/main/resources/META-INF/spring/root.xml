@@ -6,12 +6,4 @@
     <import resource="base.xml"/>
     <import resource="cxf-rest.xml"/>
     
-    <import resource="classpath*:META-INF/spring/spring-security.xml"/>  
-    <import resource="classpath:META-INF/spring/koala-security-http.xml"/>  
-    <import resource="classpath*:META-INF/spring/spring-ehcache.xml"/>  
-    <import resource="classpath:META-INF/spring/security-custom.xml"/>
-    
-    <!-- 和权限组件不同数据源 -->
-	<import resource="classpath*:META-INF/spring/security-persistence.xml" />
-    
 </beans>

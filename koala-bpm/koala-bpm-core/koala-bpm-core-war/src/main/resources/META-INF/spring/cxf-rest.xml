@@ -36,16 +36,9 @@ http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
-
-
-	<bean id="jbpmApplication"
-		class="org.openkoala.bpm.impl.JBPMApplicationImpl"/>
-		
-	<jaxrs:server id="jbpmService" address="/jbpmService">
-		<jaxrs:serviceBeans>
-			<ref bean="jbpmApplication"/>
-		</jaxrs:serviceBeans>
-	</jaxrs:server>
+	<!-- CXF 2.6.2 JAX-RS Spring integration is not compatible with Spring 4.3.
+	     Keep the bus available for CXFServlet, but do not create the REST server
+	     until CXF is upgraded. -->
 
 	<!-- JAX-WS Service Endpoint -->
 	<!-- <jaxws:endpoint id="jbpmService" implementor="#jbpmApplication"

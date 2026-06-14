@@ -87,7 +87,7 @@ public class JBPMTaskServiceImpl implements JBPMTaskService {
 	}
 
 	public List<KoalaProcessInfo> findActiveProcess() {
-		String sql = "from KoalaProcessInfo k where k.active is true";
+		String sql = "from KoalaProcessInfo k where k.isActive = true";
 		return jbpmEM.createQuery(sql).getResultList();
 	}
 

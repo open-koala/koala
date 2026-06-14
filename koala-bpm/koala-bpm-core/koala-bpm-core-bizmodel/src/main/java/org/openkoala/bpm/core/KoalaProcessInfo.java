@@ -207,7 +207,7 @@ public class KoalaProcessInfo extends KoalaAbstractEntity{
 	 * @return
 	 */
 	public static List<KoalaProcessInfo> getActiveProcess(){
-		String hql = "from KoalaProcessInfo k where k.active is true";
+		String hql = "from KoalaProcessInfo k where k.isActive = true";
 		List<KoalaProcessInfo> processes = getRepository().createJpqlQuery(hql).list();
 		return processes;
 	}
@@ -260,7 +260,7 @@ public class KoalaProcessInfo extends KoalaAbstractEntity{
 	}
 	
 	public static KoalaProcessInfo getProcessInfoByProcessNameAndVersion(String processName,int versionNum){
-		String jpql = "from KoalaProcessInfo k where k.processName = :processName and k.versionNum = :versionNum and k.active is true";
+		String jpql = "from KoalaProcessInfo k where k.processName = :processName and k.versionNum = :versionNum and k.isActive = true";
 		KoalaProcessInfo info =  getRepository().createJpqlQuery(jpql).addParameter("processName", processName).addParameter("versionNum", versionNum).singleResult();
 		return info;
 	}

@@ -75,29 +75,9 @@
 			<groupId>jboss</groupId> <artifactId>jbossall-client</artifactId> <version>4.3</version> 
 			</dependency> -->
 		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-ss3Adapter</artifactId>
-			<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.openkoala.koalacommons</groupId>
 			<artifactId>koala-commons-cache</artifactId>
 	        <version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-application</artifactId>
-			<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-authImpl</artifactId>
-				<version>${koala.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openkoala.security</groupId>
-			<artifactId>koala-security-applicationImpl</artifactId>
-			<version>${koala.security.version}</version>
 		</dependency>
 		
 		<dependency>
@@ -108,6 +88,15 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>org/openkoala/bpm/action/auth/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 			<!-- 配置加入jetty服务器，开发时我们一般使用jetty服务器 -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -117,6 +106,8 @@
 					<!--<scanIntervalSeconds>10</scanIntervalSeconds> -->
 					<webApp>
 						<contextPath>/</contextPath>
+						<!-- Jetty 8 cannot parse Java 9 multi-release classes in JAXB/istack jars. Web components are declared in web.xml. -->
+						<webInfIncludeJarPattern>^$</webInfIncludeJarPattern>
 					</webApp>
 				</configuration>
 			</plugin>
